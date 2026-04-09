@@ -1,0 +1,1119 @@
+/* =========================================
+   1. Base Variables & Reset
+   ========================================= */
+:root {
+    /* Brand Colors */
+    --primary-blue: #1e3a8a; /* Deep navy blue */
+    --secondary-blue: #2563eb;
+    --accent-color: #e11d48; /* Mangalam red logo accent */
+    
+    /* Text & Background Colors */
+    --bg-main: #ffffff;
+    --bg-light: #f8fafc;
+    --text-dark: #0f172a;
+    --text-body: #475569;
+    --text-light: #94a3b8;
+    --border-color: #e2e8f0;
+    
+    /* Dark Mode Theme Variables */
+    --dark-bg: #0f172a;
+    --dark-surface: #1e293b;
+    --dark-border: #334155;
+
+    /* Utilities */
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --transition: all 0.3s ease;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-body);
+    background-color: var(--bg-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+    color: var(--text-dark);
+    line-height: 1.2;
+    font-weight: 600;
+}
+
+/* =========================================
+   2. Layout Utilities
+   ========================================= */
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.section-header { margin-bottom: 48px; }
+.section-header.center { text-align: center; }
+.section-header h2 { font-size: 36px; margin-bottom: 16px; }
+.section-header p { font-size: 18px; color: var(--text-body); max-width: 600px; }
+.section-header.center p { margin: 0 auto; }
+.flex-between { display: flex; justify-content: space-between; align-items: flex-end; }
+
+/* Full Width Breakouts */
+.full-width-dark {
+    background-color: #111827;
+    color: white;
+    padding: 80px 0;
+    margin: 80px 0;
+}
+.full-width-dark h2 { color: white; }
+.full-width-dark .section-header p { color: var(--text-light); }
+
+.full-width-light {
+    background-color: var(--bg-light);
+    padding: 80px 0;
+    margin: 80px 0;
+}
+
+/* Grids & Buttons */
+.grid-3-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+
+.btn-primary, .btn-outline, .btn-text {
+    font-family: inherit; font-size: 16px; font-weight: 600;
+    border-radius: var(--radius-sm); cursor: pointer;
+    transition: var(--transition); display: inline-flex;
+    align-items: center; justify-content: center;
+}
+
+.btn-primary { background-color: var(--primary-blue); color: white; padding: 12px 24px; border: none; }
+.btn-primary:hover { background-color: var(--secondary-blue); }
+
+.btn-outline { background: transparent; color: var(--primary-blue); padding: 12px 24px; border: 2px solid var(--primary-blue); }
+.btn-outline:hover { background: var(--bg-light); }
+.btn-outline.light { color: white; border-color: white; }
+.btn-outline.light:hover { background: rgba(255,255,255,0.1); }
+.btn-outline.light.border-white { border: 1px solid white; border-radius: 8px; gap: 12px;}
+
+.btn-text { background: none; border: none; color: var(--primary-blue); padding: 0; }
+.btn-text:hover { color: var(--secondary-blue); gap: 4px; }
+.full-width { width: 100%; }
+.center-btn-wrap { text-align: center; margin-top: 40px; }
+
+/* =========================================
+   3. Smart Header & Navigation
+   ========================================= */
+body {
+    /* Add padding so the hero section doesn't hide behind the fixed header */
+    padding-top: 80px; 
+}
+
+#main-header {
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10000;
+    height: 80px;
+    /* This ensures the slide is visible */
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transform: translateY(0);
+}
+
+/* When this class is added, the bar slides UP out of view */
+.header-hidden {
+    transform: translateY(-100%) !important;
+}
+
+/* Ensure the rest of the page doesn't hide under the header */
+body {
+    margin-top: 20px;
+}
+.header-container {
+    display: flex; justify-content: space-between; align-items: center;
+    height: 80px; max-width: 1280px; margin: 0 auto; padding: 0 24px;
+}
+
+.site-logo { max-height: 40px; width: auto; display: block; }
+
+.header-right { display: flex; align-items: center; gap: 32px; }
+
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a {
+    text-decoration: none; color: #0f172a; font-family: 'Inter', sans-serif;
+    font-weight: 500; font-size: 16px; transition: color 0.2s;
+}
+.nav-links a:hover { color: #283593; }
+
+#header-cta-btn {
+    padding: 10px 20px;
+    font-size: 15px;
+}
+
+@media (max-width: 768px) {
+    #header-cta-btn { display: none; } /* Hide CTA on small screens to save space */
+}
+
+/* =========================================
+   4. Hero Section
+   ========================================= */
+.hero-section {
+    padding-top: 24px;
+    margin-bottom: 64px;
+}
+
+.breadcrumbs {
+    font-size: 14px;
+    margin-bottom: 32px;
+}
+.breadcrumbs a { color: var(--text-light); text-decoration: none; }
+.breadcrumbs span { color: var(--text-dark); font-weight: 500;}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+}
+
+.main-image-wrapper {
+    position: relative;
+    height: 500px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--bg-light);
+    margin-bottom: 16px;
+}
+
+.main-image {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.main-image-wrapper:hover .zoom-target { transform: scale(1.3); cursor: zoom-in; }
+
+.carousel-nav {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    background: white; border: none;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    cursor: pointer; box-shadow: var(--shadow-md);
+    z-index: 10;
+}
+.carousel-nav.prev { left: 16px; }
+.carousel-nav.next { right: 16px; }
+
+.thumbnail-track {
+    display: flex; gap: 12px;
+    overflow-x: auto; scrollbar-width: none;
+}
+.thumb {
+    width: 80px; height: 80px; flex-shrink: 0;
+    border-radius: var(--radius-sm);
+    overflow: hidden; cursor: pointer;
+    border: 2px solid transparent;
+}
+.thumb.active { border-color: var(--primary-blue); }
+.thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.product-title {
+    font-size: 40px; margin-bottom: 24px;
+}
+
+.badges { display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
+.badge {
+    padding: 6px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 13px; font-weight: 600;
+    background: var(--bg-light);
+}
+
+.feature-list { list-style: none; margin-bottom: 40px; }
+.feature-list li {
+    margin-bottom: 12px; font-size: 16px;
+    display: flex; align-items: center; gap: 12px;
+}
+.feature-list .check {
+    color: var(--primary-blue); font-weight: bold;
+    background: #e0e7ff; width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; font-size: 12px;
+}
+
+.price-box {
+    border: 1px solid var(--border-color);
+    padding: 24px; border-radius: var(--radius-md);
+    background: white;
+}
+.price-label { font-size: 14px; margin-bottom: 4px; }
+.price-value { font-size: 28px; font-weight: 700; color: var(--text-dark); margin-bottom: 16px; }
+/* =========================================
+   5. Logo Banner & Data Table
+   ========================================= */
+.logo-banner-section {
+    padding: 48px 0; text-align: center; margin-bottom: 48px;
+    border-top: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9;
+}
+.logo-banner-title { color: #94a3b8; font-size: 16px; font-weight: 500; margin-bottom: 40px; }
+.logo-track { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 32px; }
+.client-logo { height: 56px; width: auto; opacity: 0.6; filter: grayscale(100%); transition: all 0.3s ease; }
+.client-logo:hover { opacity: 1; filter: grayscale(0%); }
+
+.table-container { background: var(--dark-surface); border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--dark-border); }
+.data-table { width: 100%; border-collapse: collapse; text-align: left; }
+.data-table th, .data-table td { padding: 16px 24px; border-bottom: 1px solid var(--dark-border); }
+.data-table th { font-size: 13px; text-transform: uppercase; color: #9ca3af; background: #374151; border-color: #4b5563;}
+.data-table td { color: #e5e7eb; border-color: #374151;}
+.data-table tbody tr:last-child td { border-bottom: none; }
+.specs-subtitle { color: #9ca3af; margin-bottom: 40px; font-size: 16px; }
+
+/* =========================================
+   6. Features Grid (Modern Cards)
+   ========================================= */
+.feature-card-modern {
+    background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 32px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.feature-card-modern:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); }
+.card-icon { width: 28px; height: 28px; margin-bottom: 24px; display: block; }
+.feature-card-modern h3 { font-size: 20px; color: #0f172a; margin-bottom: 16px; font-weight: 600; }
+.feature-card-modern p { font-size: 16px; color: #64748b; line-height: 1.6; margin: 0; }
+
+/* =========================================
+   7. FAQ Accordion
+   ========================================= */
+.faq-section { padding: 80px 24px; max-width: 1200px !important; margin: 0 auto; }
+.faq-title { font-size: 40px; font-weight: 700; margin-bottom: 32px; color: #0f172a; text-align: left; }
+.accordion-container { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; }
+.faq-box { border-bottom: 1px solid #e2e8f0; background: #ffffff; }
+.faq-box:last-child { border-bottom: none; }
+.faq-trigger {
+    width: 100%; padding: 24px 32px; display: flex; justify-content: space-between; align-items: center;
+    background: transparent; border: none; font-size: 18px; font-weight: 700; text-align: left;
+    color: #0f172a; cursor: pointer;
+}
+.chevron-icon {
+    width: 32px; height: 32px; background: #f1f5f9; border-radius: 50%; display: flex;
+    align-items: center; justify-content: center; font-size: 18px; color: #64748b;
+    transition: transform 0.3s ease; flex-shrink: 0; margin-left: 16px;
+}
+.faq-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+.faq-inner { padding: 0 32px 32px 32px; }
+.faq-inner p { color: #64748b; line-height: 1.6; font-size: 16px; margin: 0; }
+.faq-box.active .chevron-icon { transform: rotate(180deg); }
+.faq-box.active .faq-content { max-height: 500px; }
+
+/* =========================================
+   8. Applications Section (Image Cards)
+   ========================================= */
+.applications-section { padding: 80px 24px; margin: 0 auto; max-width: 1280px; }
+.app-header-flex { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; gap: 40px; }
+.app-header-text { max-width: 700px; }
+.app-header-text h2 { font-size: 40px; font-weight: 700; color: #0f172a; margin-bottom: 16px; line-height: 1.2; }
+.app-header-text p { font-size: 16px; color: #64748b; margin: 0; line-height: 1.6; }
+.slider-controls { display: flex; gap: 16px; }
+.slider-controls .slider-btn {
+    background: #ffffff; color: #0f172a; border: 1px solid #cbd5e1; border-radius: 50%;
+    width: 56px; height: 56px; cursor: pointer; font-size: 20px; display: flex;
+    align-items: center; justify-content: center; transition: all 0.2s ease;
+}
+.slider-controls .slider-btn:hover { border-color: #0f172a; background: #f8fafc; }
+
+.horizontal-slider { display: flex; gap: 24px; overflow-x: auto; padding-bottom: 24px; scroll-behavior: smooth; scrollbar-width: none; }
+.horizontal-slider::-webkit-scrollbar { display: none; }
+.app-image-card {
+    position: relative; width: 380px; height: 420px; flex: 0 0 auto;
+    border-radius: 24px; overflow: hidden; cursor: pointer;
+}
+.app-bg-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.app-image-card:hover .app-bg-img { transform: scale(1.05); }
+.app-image-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 70%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.6) 40%, transparent 100%); pointer-events: none;
+}
+.app-card-content { position: absolute; bottom: 0; left: 0; width: 100%; padding: 32px; z-index: 2; }
+.app-card-content h3 { font-size: 22px; font-weight: 600; color: #ffffff; margin-bottom: 12px; }
+.app-card-content p { font-size: 14px; color: #cbd5e1; line-height: 1.6; margin: 0; }
+
+/* =========================================
+   9. Testimonials Section
+   ========================================= */
+.testimonials-section { padding: 64px 48px; background: #f5f5f3; }
+.testimonials-header { text-align: center; max-width: 580px; margin: 0 auto 48px; }
+.testimonials-header h2 { font-size: 1.875rem; font-weight: 700; color: #111; line-height: 1.2; margin-bottom: 14px; }
+.testimonials-header p { font-size: 1rem; color: #555; line-height: 1.65; }
+
+.testimonial-slider {
+    display: flex; flex-direction: row; gap: 20px; overflow-x: auto;
+    padding-bottom: 10px; -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory;
+}
+.testimonial-slider::-webkit-scrollbar { height: 5px; }
+.testimonial-slider::-webkit-scrollbar-track { background: transparent; }
+.testimonial-slider::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+
+.testimonial-card {
+    background: #ffffff; border: 1px solid #e8e8e6; border-radius: 16px;
+    padding: 28px 24px 24px; display: flex; flex-direction: column; gap: 14px;
+    min-width: 280px; flex: 1; scroll-snap-align: start;
+}
+.quote-icon { display: block; width: 26px; height: 24px; flex-shrink: 0; }
+.testimonial-card h3 { font-size: 1rem; font-weight: 600; color: #111; line-height: 1.4; }
+.testimonial-card > p { font-size: 0.875rem; color: #555; line-height: 1.65; flex: 1; }
+.client-info { display: flex; align-items: center; gap: 12px; padding-top: 16px; border-top: 1px solid #ebebeb; margin-top: auto; }
+.avatar { width: 40px; height: 40px; border-radius: 50%; background: #d9d9d9; flex-shrink: 0; }
+.client-text h4 { font-size: 0.875rem; font-weight: 600; color: #111; margin-bottom: 2px; }
+.client-text .role { font-size: 0.8rem; color: #888; font-weight: 400; }
+
+/* =========================================
+   10. Final CTA Section
+   ========================================= */
+.final-cta-section { padding: 60px 0; margin-bottom: 80px; }
+.cta-box-blue {
+    background-color: #202c6c; border-radius: 40px; padding: 60px;
+    display: flex; align-items: center; justify-content: space-between; gap: 40px;
+}
+.cta-text-content { flex: 1; color: #ffffff; }
+.cta-text-content h2 { color: #ffffff; font-size: 48px; line-height: 1.1; font-weight: 700; margin-bottom: 24px; }
+.cta-desc { font-size: 18px; opacity: 0.9; margin-bottom: 30px; line-height: 1.6; }
+.cta-divider { border: 0; border-top: 1px solid #ffffff; margin: 30px 0; height: 0;}
+.cta-contact-info { font-size: 14px; opacity: 0.8; line-height: 1.6; }
+.cta-contact-info a { color: #ffffff; text-decoration: underline; }
+
+.cta-form-card { background-color: #f8f9fa; padding: 40px; border-radius: 30px; width: 100%; max-width: 450px; }
+.cta-form-card h3 { font-size: 18px; color: #ffffff; margin-bottom: 25px; font-weight: 600; }
+.lead-form { display: flex; flex-direction: column; gap: 15px; }
+.form-input { padding: 14px 18px; border: 1px solid #e0e0e0; border-radius: 10px; font-size: 15px; outline: none; transition: border-color 0.2s; }
+.form-input:focus { border-color: #202c6c; }
+
+.phone-input-group { display: flex; border: 1px solid #e0e0e0; border-radius: 10px; background: white; overflow: hidden; margin-bottom: 0;}
+.country-code { display: flex; align-items: center; padding: 0 15px; background: #fff; border-right: 1px solid #e0e0e0; font-size: 15px; color: #333; cursor: pointer; border-radius: 0;}
+.phone-input { border: none; flex: 1; border-radius: 0; margin-bottom: 0;}
+.btn-dark-submit { background-color: #2d3134; color: #ffffff; padding: 16px; border-radius: 12px; font-weight: 600; border: none; cursor: pointer; margin-top: 10px; transition: background 0.3s; }
+.btn-dark-submit:hover { background-color: #1a1c1e; }
+
+/* =========================================
+   11. Modal Styles (Updated)
+   ========================================= */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(4px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 2000; opacity: 0; visibility: hidden; transition: var(--transition);
+}
+.modal-overlay.active { opacity: 1; visibility: visible; }
+
+.modal-content-new {
+    background: #ffffff; border-radius: 12px;
+    width: 100%; max-width: 500px; position: relative;
+    transform: translateY(20px); transition: var(--transition);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    display: flex; flex-direction: column;
+}
+.modal-overlay.active .modal-content-new { transform: translateY(0); }
+
+.modal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 24px; border-bottom: 1px solid #e2e8f0;
+}
+.modal-header h3 { font-size: 16px; font-weight: 600; color: #0f172a; margin: 0; }
+.modal-close-icon {
+    background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px;
+    width: 28px; height: 28px; font-size: 18px; color: #64748b;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s ease; padding: 0; line-height: 1;
+}
+.modal-close-icon:hover { background: #f1f5f9; color: #0f172a; }
+
+.modal-body { padding: 24px; }
+.modal-form { display: flex; flex-direction: column; gap: 16px; }
+.modal-form .form-input {
+    width: 100%; padding: 12px 16px; border: 1px solid #e2e8f0;
+    border-radius: 6px; font-size: 14px; outline: none; color: #333;
+    transition: border-color 0.2s; font-family: 'Inter', sans-serif;
+    margin: 0; /* Reset margins */
+}
+.modal-form .form-input::placeholder { color: #94a3b8; }
+.modal-form .form-input:focus { border-color: #283593; }
+
+/* Fixing phone input alignment for the modal */
+.modal-form .phone-input-group { margin-bottom: 0; border-radius: 6px; }
+.modal-form .country-code { padding: 0 16px; font-size: 14px; gap: 8px; border-color: #e2e8f0; }
+
+.modal-footer {
+    padding: 16px 24px; border-top: 1px solid #e2e8f0;
+    display: flex; justify-content: flex-end; background: #ffffff;
+    border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;
+}
+.btn-submit-modal {
+    background-color: #283593; color: white; border: none;
+    padding: 10px 20px; border-radius: 6px; font-size: 14px;
+    font-weight: 500; cursor: pointer; transition: background-color 0.2s;
+}
+.btn-submit-modal:hover { background-color: #1a237e; }
+/* =========================================
+   12. Catalogue & Manufacturing
+   ========================================= */
+.catalogue-cta-section { padding: 0 24px 80px 24px; max-width: 1200px !important; margin: 0 auto; }
+.catalogue-cta-box { background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 40px 48px; display: flex; justify-content: space-between; align-items: center; gap: 40px; }
+.cta-form-content { flex: 0 0 320px; }
+.catalogue-form { display: flex; flex-direction: column; gap: 12px; }
+.catalogue-form input { width: 100%; padding: 14px 16px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; transition: border-color 0.2s; font-family: 'Inter', sans-serif; }
+.catalogue-form input:focus { border-color: #283593; }
+.btn-request { background-color: #283593; color: #ffffff; font-weight: 600; font-size: 15px; padding: 14px 24px; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.2s; width: 100%; font-family: 'Inter', sans-serif; }
+.btn-request:hover { background-color: #1a237e; }
+.title-blue { color: #283593; }
+
+.process-header { text-align: center; max-width: 800px; margin: 0 auto 48px auto; }
+.process-header h2 { font-size: 36px; color: #0f172a; margin-bottom: 16px; font-weight: 700; }
+.process-header p { font-size: 16px; color: #94a3b8; line-height: 1.6; }
+.process-white-box { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 24px; padding: 48px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); }
+
+.scroll-tabs { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 16px; margin-bottom: 40px; border-bottom: 1px solid #e2e8f0; scrollbar-width: none; }
+.tab-btn { flex: 0 0 auto; background: #ffffff; color: #0f172a; border: 1px solid #cbd5e1; border-radius: 30px; padding: 10px 24px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s ease; }
+.tab-btn:hover { border-color: #94a3b8; }
+.tab-btn.active { background: #283593; color: #ffffff; border-color: #283593; }
+
+.tab-pane { display: none; gap: 48px; align-items: center; }
+.tab-pane.active { display: flex; }
+.pane-text { flex: 1; }
+.pane-text h3 { font-size: 28px; color: #0f172a; margin-bottom: 16px; font-weight: 600; }
+.pane-text p { font-size: 16px; color: #64748b; line-height: 1.6; margin-bottom: 24px; }
+.check-list { list-style: none; padding: 0; margin: 0; margin-top: 24px;}
+.check-list li { display: flex; align-items: center; font-size: 16px; color: #0f172a; font-weight: 500; margin-bottom: 16px; }
+
+.pane-image-container { flex: 1; position: relative; border-radius: 16px; overflow: hidden; height: 380px; }
+.process-img { width: 100%; height: 100%; object-fit: cover; }
+.image-nav { position: absolute; top: 50%; transform: translateY(-50%); background: #ffffff; color: #0f172a; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: background 0.2s; }
+.image-nav:hover { background: #f8fafc; }
+.image-nav.prev { left: 16px; }
+.image-nav.next { right: 16px; }
+
+/* =========================================
+   13. Portfolio & Resources
+   ========================================= */
+.portfolio-section { padding: 80px 24px; }
+.portfolio-header { text-align: center; max-width: 700px; margin: 0 auto 56px auto; }
+.portfolio-header h2 { font-size: 36px; color: #0f172a; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+.portfolio-header p { font-size: 16px; color: #64748b; line-height: 1.6; }
+.portfolio-grid { gap: 32px; }
+.portfolio-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s ease; cursor: pointer; }
+.portfolio-card:hover { border-color: #cbd5e1; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+.portfolio-card.active-card { border-color: #cbd5e1; box-shadow: 0 10px 25px rgba(0,0,0,0.05); transform: translateY(-4px); }
+.card-text-top h3 { font-size: 22px; color: #0f172a; font-weight: 600; margin-bottom: 12px; line-height: 1.3; }
+.card-text-top p { font-size: 15px; color: #64748b; line-height: 1.6; margin-bottom: 24px; }
+.card-image-wrapper { width: 100%; height: 200px; border-radius: 12px; overflow: hidden; margin-bottom: 24px; }
+.card-image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+.btn-learn-more { background-color: #f1f5f9; color: #283593; border: 1px solid #e2e8f0; border-radius: 8px; font-weight: 600; font-size: 14px; padding: 14px 24px; cursor: pointer; transition: background 0.2s; width: 100%; }
+.btn-learn-more:hover { background-color: #e2e8f0; border-color: #cbd5e1; }
+.portfolio-cta-banner { display: flex; justify-content: space-between; align-items: center; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px 40px; margin-top: 64px; gap: 24px; }
+.cta-text h3 { font-size: 24px; color: #0f172a; font-weight: 700; margin-bottom: 4px; }
+.cta-text p { font-size: 14px; color: #64748b; margin: 0; }
+.btn-talk-expert { background-color: #283593; color: #ffffff; font-weight: 600; font-size: 15px; padding: 14px 24px; border: none; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: background-color 0.2s; white-space: nowrap; }
+.btn-talk-expert:hover { background-color: #1a237e; }
+
+.resources-section { padding: 80px 24px; max-width: 1200px; margin: 0 auto; }
+.resources-header { margin-bottom: 48px; }
+.resources-header h2 { font-size: 36px; font-weight: 700; color: #0f172a; margin-bottom: 16px; }
+.resources-header p { font-size: 16px; color: #64748b; max-width: 700px; margin: 0 auto; line-height: 1.6; }
+.resources-box { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; }
+.resource-row { display: flex; justify-content: space-between; align-items: center; padding: 24px 40px; border-bottom: 1px solid #f1f5f9; transition: background-color 0.2s ease; }
+.resource-row:last-child { border-bottom: none; }
+.resource-row:hover { background-color: #f8fafc; }
+.resource-title { font-size: 16px; font-weight: 500; color: #334155; }
+.download-link { display: flex; align-items: center; gap: 10px; color: #283593; font-weight: 600; font-size: 15px; text-decoration: none; transition: color 0.2s ease; }
+.download-link:hover { color: #1a237e; text-decoration: underline; }
+.download-link svg { margin-top: 2px; }
+
+/* =========================================
+   14. Site Footer
+   ========================================= */
+.site-footer { background-color: #ffffff; padding-top: 60px; border-top: 1px solid #f1f5f9; }
+.footer-brand-banner { background: #fff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 30px 60px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 60px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02); }
+.footer-logo { height: 50px; }
+.banner-right h3 { font-size: 24px; color: #1a1c1e; line-height: 1.2; text-align: right; font-weight: 600; }
+.text-blue { color: #202c6c; }
+.footer-grid { display: grid; grid-template-columns: 1fr 1.5fr 1.5fr 2fr; gap: 40px; padding-bottom: 60px; }
+.footer-col h4 { font-size: 14px; font-weight: 700; color: #000; margin-bottom: 20px; text-transform: none; }
+.footer-col ul { list-style: none; padding: 0; }
+.footer-col ul li { margin-bottom: 12px; }
+.footer-col ul li a { color: #64748b; font-size: 14px; text-decoration: none; transition: color 0.2s; }
+.footer-col ul li a:hover { color: #202c6c; }
+.footer-contact-info p { font-size: 13px; color: #64748b; margin-bottom: 12px; line-height: 1.5; }
+.footer-divider { border: 0; border-top: 1px solid #f1f5f9; margin: 20px 0; }
+.footer-socials { display: flex; gap: 15px; }
+.footer-socials img { width: 20px; filter: grayscale(1); opacity: 0.7; transition: 0.3s; }
+.footer-socials img:hover { filter: none; opacity: 1; }
+.footer-bottom { border-top: 1px solid #f1f5f9; padding: 20px 0; }
+.footer-bottom-flex { display: flex; justify-content: space-between; align-items: center; }
+.footer-bottom p, .footer-bottom-links a { font-size: 12px; color: #94a3b8; text-decoration: none; }
+.footer-bottom-links { display: flex; gap: 30px; }
+.footer-bottom-links a:hover { color: #202c6c; }
+
+/* =========================================
+   15. Global Media Queries
+   ========================================= */
+@media (max-width: 1024px) {
+    .product-grid { grid-template-columns: 1fr; gap: 40px; }
+    .grid-3-col { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px;}
+}
+
+@media (max-width: 992px) {
+    .cta-box-blue { flex-direction: column; padding: 40px; border-radius: 20px; }
+    .cta-text-content { text-align: center; padding-right: 0;}
+    .cta-form-card { max-width: 100%; min-width: 100%;}
+    .footer-brand-banner { flex-direction: column; text-align: center; padding: 30px; gap: 20px; }
+    .banner-right h3 { text-align: center; }
+    .tab-pane.active { flex-direction: column; }
+    .pane-image-container { width: 100%; height: 300px; }
+    .process-white-box { padding: 32px 24px; }
+    .portfolio-cta-banner { flex-direction: column; text-align: center; padding: 32px 24px; }
+    /* Hide zoom on tablets/mobile */
+    .zoom-lens, .zoom-result { display: none !important; }
+    .main-image-wrapper { cursor: default; }
+}
+
+@media (max-width: 768px) {
+    .header-container { padding: 0 16px; }
+    
+    /* --- MOBILE MENU STYLES --- */
+    .hamburger-btn { display: block; margin-left: 12px; }
+    #open-modal-btn { display: none; } /* Hide the header button on small screens to save space */
+    
+    .nav-links {
+        position: fixed; top: 80px; left: -100%; width: 100%; height: calc(100vh - 80px);
+        background: #ffffff; flex-direction: column; align-items: flex-start;
+        padding: 32px 24px; gap: 24px; transition: left 0.3s ease;
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        z-index: 999;
+    }
+    .nav-links.active { left: 0; display: flex; }
+    .nav-links a { font-size: 20px; width: 100%; padding-bottom: 16px; border-bottom: 1px solid #f1f5f9; }
+    
+    /* --- SECTION SPACING & TYPOGRAPHY FIXES --- */
+    .hero-section { padding: 40px 16px; margin-bottom: 40px; }
+    .product-title { font-size: 32px; }
+    .section-header h2 { font-size: 28px; }
+    .section-header { margin-bottom: 32px; }
+    
+    /* Reduce massive paddings on mobile */
+    .features-section, .faq-section, .applications-section, .portfolio-section, .resources-section, .process-section {
+        padding: 48px 16px !important;
+    }
+    .full-width-dark, .full-width-light { padding: 48px 16px; margin: 48px 0; }
+    
+    /* Layout Adjustments */
+    .grid-3-col, .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+    .product-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero-actions { flex-direction: column; width: 100%; }
+    .hero-actions button { width: 100%; }
+    
+    /* Carousel & Thumbnails */
+    .main-image-wrapper { border-radius: 16px; }
+    .thumbnail-track { justify-content: flex-start; padding-bottom: 8px; }
+    .thumb { width: 70px; height: 70px; }
+    
+    /* Modals - Give them breathing room */
+    .modal-content-new, .modal-content { 
+        width: calc(100% - 32px); 
+        margin: 16px; 
+        max-height: 90vh; 
+        overflow-y: auto; 
+    }
+    
+    /* Cards & Sliders */
+    .app-header-flex { flex-direction: column; align-items: flex-start; gap: 24px; }
+    .app-image-card { width: 280px; height: 360px; }
+    .catalogue-cta-box { flex-direction: column; text-align: center; padding: 32px 20px; }
+    .cta-form-content { flex: 1; width: 100%; }
+    .resource-row { flex-direction: column; align-items: flex-start; gap: 16px; padding: 24px 20px; }
+    
+    /* Footer */
+    .footer-bottom-flex { flex-direction: column; gap: 16px; text-align: center; }
+    .logo-track { justify-content: center; gap: 24px; }
+    .client-logo { height: 28px; }
+}
+@media (max-width: 480px) {
+    .testimonials-header h2 { font-size: 1.4rem; }
+    .testimonial-card { min-width: 220px; }
+}
+/* --- Additional styles for the Download Modal --- */
+.modal-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.modal-form .form-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #475569;
+}
+.btn-download-modal {
+    background-color: #202c6c; /* Light grayish-blue to match design */
+    color: #ffffff; 
+    border: none;
+    padding: 10px 24px; 
+    border-radius: 6px; 
+    font-size: 14px;
+    font-weight: 600; 
+    cursor: pointer; 
+    transition: background-color 0.2s;
+}
+.btn-download-modal:hover {
+    background-color: #1a2455; /* Slightly darker on hover */
+    color: #ffffff; /* Change text color on hover for contrast */
+}
+/* Ensure the phone icon fits nicely inside the button */
+.btn-talk-expert img {
+    width: 20px; /* Adjust this value to match your design */
+    height: auto;
+    display: block;
+}
+.footer-contact-info img {
+    width: 20px;
+    height: auto;
+}
+/* Hide hamburger by default on desktop */
+.hamburger-btn {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+}
+
+/* =========================================
+   MOBILE OVERFLOW & CUT-OFF FIXES
+   ========================================= */
+@media (max-width: 768px) {
+    
+    /* 1. Technical Specifications Table */
+    /* Allows the user to swipe left/right on the table without breaking the whole page */
+    .table-container { 
+        overflow-x: auto; 
+        -webkit-overflow-scrolling: touch;
+        border-radius: 8px;
+    }
+    .data-table { 
+        min-width: 600px; /* Stops the text from squishing infinitely */
+    }
+
+    /* 2. Final CTA ("Contact Us Today") */
+    /* Scales down the massive text and padding so the form fits nicely */
+    .cta-box-blue { 
+        padding: 32px 16px; 
+        border-radius: 20px;
+    }
+    .cta-text-content h2 { 
+        font-size: 28px !important; /* Forces the text to scale down */
+        margin-bottom: 16px;
+    }
+    .cta-form-card { 
+        padding: 24px 16px; 
+    }
+    .country-code {
+        padding: 0 12px; /* Prevents the phone input from overflowing */
+    }
+
+    /* 3. Testimonials */
+    /* Adjusts the minimum width so the cards don't bleed off the screen */
+    .testimonial-card { 
+        min-width: 250px; 
+        padding: 24px 16px;
+    }
+
+    /* 4. Hero Section */
+    /* Prevents the price card and badges from causing horizontal bleeding */
+    .price-range-card {
+        padding: 20px 16px;
+    }
+    .price-value {
+        font-size: 28px;
+    }
+    .pill-row {
+        gap: 8px; 
+    }
+    .pill {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+    .feature-list li {
+        font-size: 14px;
+        align-items: flex-start; /* Ensures long text wraps nicely under the checkmark */
+    }
+    .check-icon {
+        flex-shrink: 0; /* Stops the checkmark from shrinking if text wraps */
+    }
+}
+/* =========================================
+   HERO SECTION: ULTIMATE MOBILE CLEANUP (Max 480px)
+   ========================================= */
+@media (max-width: 480px) {
+    /* 1. Tighten the overall layout */
+    .product-grid { 
+        gap: 24px !important; /* Reduces the massive empty space between image and text */
+    }
+
+    /* 2. Fix the Carousel & Image */
+    .main-image-wrapper { 
+        border-radius: 12px; 
+    }
+    .carousel-nav {
+        width: 32px !important; 
+        height: 32px !important; /* Smaller buttons so they don't cover the product */
+        font-size: 14px;
+    }
+    .carousel-nav.prev { left: 8px !important; }
+    .carousel-nav.next { right: 8px !important; }
+    
+    .thumbnail-track {
+        gap: 12px !important;
+        margin-top: 16px !important;
+    }
+    .thumb { 
+        width: 65px !important; 
+        height: 65px !important; /* Slightly smaller thumbs to fit more on screen */
+    }
+
+    /* 3. Fix Typography & Badges */
+    .product-title { 
+        font-size: 24px !important; 
+        line-height: 1.3 !important;
+        margin-bottom: 16px !important;
+    }
+    .badges { gap: 8px !important; margin-bottom: 16px !important; }
+    .badge { font-size: 11px !important; padding: 4px 8px !important; }
+
+    /* 4. Fix Feature List wrapping */
+    .feature-list { margin-bottom: 24px !important; }
+    .feature-list li {
+        font-size: 13px !important;
+        margin-bottom: 12px !important;
+        align-items: flex-start !important; /* Keeps icon at the top if text wraps */
+        line-height: 1.5;
+    }
+    .check-icon {
+        width: 20px !important; 
+        height: 20px !important; 
+        font-size: 10px !important;
+        min-width: 20px !important; /* CRITICAL: Stops the circle from squishing into an oval */
+        margin-top: 2px;
+    }
+
+    /* 5. Fix the Price Card & Overflowing Pills */
+    .price-range-card {
+        padding: 16px !important;
+        margin-bottom: 24px !important;
+    }
+    .price-value { 
+        font-size: 24px !important; 
+        margin-bottom: 12px !important; 
+    }
+    .pill-row { 
+        flex-direction: column !important; /* CRITICAL: Stacks the pills instead of side-by-side */
+        gap: 8px !important; 
+    }
+    .pill { 
+        width: 100% !important; 
+        text-align: center !important; 
+        white-space: normal !important; /* Allows long text inside pills to wrap safely */
+        padding: 8px 12px !important;
+        font-size: 12px !important;
+    }
+
+    /* 6. Stack the Action Buttons safely */
+    .hero-actions {
+        flex-direction: column !important;
+        gap: 12px !important;
+    }
+    .hero-actions button {
+        width: 100% !important;
+        padding: 14px 20px !important;
+        font-size: 14px !important;
+    }
+}
+/* =========================================
+   15. Unified Mobile Responsiveness (Bulletproof)
+   ========================================= */
+
+@media (max-width: 1024px) {
+    .product-grid { grid-template-columns: 1fr; gap: 40px; }
+    .grid-3-col { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px;}
+    .zoom-lens, .zoom-result { display: none !important; } /* Hide zoom on tablets/phones */
+}
+
+@media (max-width: 768px) {
+    /* --- 1. Global Viewport Locks --- */
+    html, body {
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+        box-sizing: border-box !important;
+    }
+
+    .header-container { padding: 0 16px; }
+    #open-modal-btn { display: none; } /* Hide header button on small screens */
+
+    /* --- 2. Hero Section (Strict Containment) --- */
+    .hero-section {
+        width: 100% !important;
+        max-width: 100vw !important;
+        padding: 24px 16px !important;
+        margin: 0 0 40px 0 !important;
+        box-sizing: border-box !important;
+        border-radius: 0 !important;
+    }
+    
+    .product-grid {
+        display: flex !important; /* Safer than grid on old mobile browsers */
+        flex-direction: column !important;
+        gap: 32px !important;
+        width: 100% !important;
+    }
+
+    .product-details {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+
+    .product-title {
+        font-size: 26px !important;
+        line-height: 1.3 !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+
+    /* Hero Buttons - Stack and Wrap */
+    .hero-actions {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 12px !important;
+    }
+    .hero-actions button {
+        width: 100% !important;
+        white-space: normal !important; /* Allows long button text to wrap */
+        height: auto !important;
+        padding: 14px !important;
+    }
+
+    /* Price Card & Pills - Stack Vertically */
+    .price-range-card {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 16px !important;
+    }
+    .price-value { font-size: 24px !important; }
+    
+    .pill-row {
+        display: flex !important;
+        flex-direction: column !important; /* Forces pills to stack */
+        width: 100% !important;
+        gap: 8px !important;
+    }
+    .pill {
+        width: 100% !important;
+        white-space: normal !important; /* Allows long text inside pills to wrap */
+        box-sizing: border-box !important;
+        display: block !important;
+        text-align: left !important;
+    }
+
+    /* Hero Image & Thumbs */
+    .main-image-wrapper { border-radius: 12px !important; }
+    .thumbnail-track { gap: 12px; margin-top: 16px; padding-bottom: 8px; }
+    .thumb { width: 65px; height: 65px; flex-shrink: 0; }
+    .carousel-nav { width: 32px; height: 32px; font-size: 14px; }
+
+    /* --- 3. Fixing the Other Bleeding Sections --- */
+    
+    /* Table Fix */
+    .table-container { 
+        display: block !important; 
+        overflow-x: auto !important; 
+        width: 100% !important; 
+        -webkit-overflow-scrolling: touch;
+    }
+    .data-table { min-width: 600px !important; }
+
+    /* Contact Us / Final CTA Fix */
+    .cta-box-blue { 
+        padding: 32px 16px !important; 
+        flex-direction: column !important; 
+        border-radius: 16px !important; 
+    }
+    .cta-text-content h2 { font-size: 26px !important; }
+    .cta-form-card { 
+        width: 100% !important; 
+        max-width: 100% !important; 
+        min-width: 0 !important; 
+        padding: 24px 16px !important; 
+        box-sizing: border-box !important;
+    }
+    .phone-input-group { width: 100%; }
+    .country-code { padding: 0 10px !important; font-size: 13px !important; }
+
+    /* Testimonials & Apps */
+    .testimonial-card { min-width: 260px !important; width: 85vw !important; padding: 20px 16px !important; }
+    .app-image-card { width: 280px !important; height: 340px !important; }
+    .app-header-flex { flex-direction: column; align-items: flex-start; gap: 24px; }
+
+    /* Reduce global paddings */
+    .features-section, .faq-section, .applications-section, .portfolio-section, .resources-section, .process-section {
+        padding: 48px 16px !important;
+    }
+    .full-width-dark, .full-width-light { padding: 48px 16px; margin: 48px 0; }
+    .grid-3-col { grid-template-columns: 1fr; gap: 24px; }
+}
+@media (max-width: 480px) {
+    /* 1. Reset the wrapper to allow natural height */
+    .main-image-wrapper {
+        aspect-ratio: auto !important; /* Removes the forced square */
+        height: 300px !important; /* Sets a visible fixed height for mobile */
+        width: 100% !important;
+        position: relative !important;
+        overflow: hidden !important;
+        margin-bottom: 16px;
+    }
+
+    /* 2. Ensure the inner container fills the new height */
+    .main-image-inner {
+        position: relative !important;
+        height: 100% !important;
+        width: 100% !important;
+    }
+
+    /* 3. Force the image to fit without being cut */
+    .main-image {
+        position: absolute !important;
+        top: 0;
+        left: 0;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important; /* Changed from 'cover' to 'contain' to show the WHOLE image */
+        background-color: #f8fafc; /* Adds a light background if the image is a different ratio */
+    }
+
+    /* 4. Reposition navigation arrows for the smaller image height */
+    .carousel-nav {
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        z-index: 5;
+    }
+}
+@media (max-width: 480px) {
+    /* 1. Fix Application Image Cards (Application Section) */
+    .horizontal-slider {
+        display: flex !important;
+        overflow-x: auto !important; /* Ensures user can scroll to see full card */
+        gap: 16px !important;
+        padding: 0 4px 20px 4px !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .app-image-card {
+        width: 290px !important; /* Narrow enough to fit 360px screen with side visible */
+        height: 340px !important;
+        flex: 0 0 auto !important; /* Prevents card from shrinking */
+    }
+
+    /* 2. Fix Thumbnail Images (Hero Section) */
+    .thumbnail-track {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important; /* Allows swiping through thumbnails */
+        padding-bottom: 10px !important;
+        -webkit-overflow-scrolling: touch;
+        gap: 10px !important;
+    }
+
+    .thumb {
+        width: 60px !important;
+        height: 60px !important;
+        flex: 0 0 auto !important; /* Stops thumbnails from disappearing */
+    }
+
+    /* 3. Fix Portfolio Image Cards */
+    .portfolio-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+    }
+
+    .portfolio-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .card-image-wrapper {
+        height: 180px !important;
+    }
+}
+@media (max-width: 480px) {
+    /* 1. Reset the carousel container to ensure it shows up */
+    .product-carousel {
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        margin-bottom: 20px;
+    }
+
+    /* 2. Fix the Image Wrapper height and overflow */
+    .main-image-wrapper {
+        position: relative !important;
+        width: 100% !important;
+        height: 320px !important; /* Forces a visible height on small screens */
+        aspect-ratio: auto !important;
+        overflow: hidden !important;
+        display: block !important;
+        border-radius: 12px !important;
+    }
+
+    /* 3. Ensure the inner container fills the space */
+    .main-image-inner {
+        position: relative !important;
+        width: 100% !important;
+        height: 100% !important;
+        display: block !important;
+    }
+
+    /* 4. Force the image to scale correctly */
+    .main-image {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important; /* Crops to fill the 320px height */
+        display: block !important;
+    }
+
+    /* 5. Fix the thumbnail track visibility */
+    .thumbnail-track {
+        display: flex !important;
+        overflow-x: auto !important;
+        width: 100% !important;
+        height: auto !important;
+        padding: 10px 0 !important;
+        visibility: visible !important;
+    }
+
+    .thumb {
+        flex: 0 0 70px !important; /* Prevents thumbnails from shrinking to zero */
+        height: 70px !important;
+        display: block !important;
+    }
+}
