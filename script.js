@@ -1,27 +1,28 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-/* =========================================
-   1. Sticky Header Logic (Fixed Naming & Nesting)
-   ========================================= */
-let lastScrollTop = 0;
-const mainHeader = document.getElementById('main-header');
+    /* =========================================
+       1. Sticky Header Logic
+       ========================================= */
+    let lastScrollTop = 0;
+    const mainHeader = document.getElementById('main-header');
 
-window.addEventListener('scroll', () => {
-    let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+    if (mainHeader) {
+        window.addEventListener('scroll', () => {
+            let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
 
-    if (currentScroll > lastScrollTop && currentScroll > 100) {
-        // Scrolling Down - Hide Header
-        mainHeader.classList.add('header-hidden');
-        console.log("Scrolling Down - Hiding");
-    } else {
-        // Scrolling Up - Show Header
-        mainHeader.classList.remove('header-hidden');
-        console.log("Scrolling Up - Showing");
+            if (currentScroll > lastScrollTop && currentScroll > 100) {
+                // Scrolling Down - Hide Header
+                mainHeader.classList.add('header-hidden');
+            } else {
+                // Scrolling Up - Show Header
+                mainHeader.classList.remove('header-hidden');
+            }
+            
+            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+        }, false);
     }
-    
-    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
-}, false);
-/* =========================================
+
+    /* =========================================
        2. Hero Image Carousel & Controlled Zoom
        ========================================= */
     const mainImg = document.getElementById('hero-main-img');
@@ -30,83 +31,82 @@ window.addEventListener('scroll', () => {
     const nextBtn = document.getElementById('hero-next-btn');
     const thumbs = document.querySelectorAll('.thumbnail-track .thumb');
     
-    let currentIndex = 0;
+    // Only run if the carousel elements exist on the page
+    if (mainImg && imageWrapper && thumbs.length > 0) {
+        let currentIndex = 0;
 
-    function updateCarousel(index) {
-        thumbs.forEach(t => t.classList.remove('active'));
-        thumbs[index].classList.add('active');
-        
-        const thumbImgSrc = thumbs[index].querySelector('img').src;
-        // Adjust the URL to grab the high-res version
-        const highResSrc = thumbImgSrc.replace('&w=150', '&w=800'); 
-        
-        mainImg.style.opacity = 0.5; 
-        setTimeout(() => {
-            mainImg.src = highResSrc;
-            mainImg.style.opacity = 1;
-        }, 150);
+        const updateCarousel = (index) => {
+            thumbs.forEach(t => t.classList.remove('active'));
+            thumbs[index].classList.add('active');
+            
+            const thumbImgSrc = thumbs[index].querySelector('img').src;
+            // Adjust the URL to grab the high-res version
+            const highResSrc = thumbImgSrc.replace('&w=150', '&w=800'); 
+            
+            mainImg.style.opacity = 0.5; 
+            setTimeout(() => {
+                mainImg.src = highResSrc;
+                mainImg.style.opacity = 1;
+            }, 150);
+        };
+
+        // Initialize Carousel
+        updateCarousel(0);
+
+        // Thumb Click Listeners
+        thumbs.forEach((thumb, index) => {
+            thumb.addEventListener('click', () => {
+                currentIndex = index;
+                updateCarousel(currentIndex);
+            });
+        });
+
+        // Navigation Arrows
+        if (prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex > 0) ? currentIndex - 1 : thumbs.length - 1;
+                updateCarousel(currentIndex);
+            });
+
+            nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex < thumbs.length - 1) ? currentIndex + 1 : 0;
+                updateCarousel(currentIndex);
+            });
+        }
+
+        // Controlled Mouse-Tracking Zoom Logic
+        imageWrapper.addEventListener('mousemove', (e) => {
+            const rect = imageWrapper.getBoundingClientRect();
+            const x = e.clientX - rect.left; 
+            const y = e.clientY - rect.top;  
+            
+            const xPercent = (x / rect.width) * 100;
+            const yPercent = (y / rect.height) * 100;
+            
+            mainImg.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+        });
+
+        imageWrapper.addEventListener('mouseleave', () => {
+            mainImg.style.transformOrigin = 'center center';
+        });
     }
 
-    // Explicitly load Thumb 1 as soon as the script runs
-    updateCarousel(0);
-
-    // --- Thumb & Button Click Listeners ---
-    thumbs.forEach((thumb, index) => {
-        thumb.addEventListener('click', () => {
-            currentIndex = index;
-            updateCarousel(currentIndex);
-        });
-    });
-
-    if (prevBtn && nextBtn) {
-        prevBtn.addEventListener('click', () => {
-            currentIndex = (currentIndex > 0) ? currentIndex - 1 : thumbs.length - 1;
-            updateCarousel(currentIndex);
-        });
-
-        nextBtn.addEventListener('click', () => {
-            currentIndex = (currentIndex < thumbs.length - 1) ? currentIndex + 1 : 0;
-            updateCarousel(currentIndex);
-        });
-    }
-
-    // --- Controlled Mouse-Tracking Zoom Logic ---
-    imageWrapper.addEventListener('mousemove', (e) => {
-        // Get the exact dimensions and position of the image wrapper
-        const rect = imageWrapper.getBoundingClientRect();
-        
-        // Calculate where the mouse is relative to the wrapper
-        const x = e.clientX - rect.left; 
-        const y = e.clientY - rect.top;  
-        
-        // Convert those coordinates into percentages
-        const xPercent = (x / rect.width) * 100;
-        const yPercent = (y / rect.height) * 100;
-        
-        // Move the center of the zoom to match the mouse cursor
-        mainImg.style.transformOrigin = `${xPercent}% ${yPercent}%`;
-    });
-
-    // Reset the zoom focus to the center when the mouse leaves
-    imageWrapper.addEventListener('mouseleave', () => {
-        mainImg.style.transformOrigin = 'center center';
-    });
     /* =========================================
        3. FAQ Accordion
        ========================================= */
     const faqBoxes = document.querySelectorAll('.faq-box');
 
     faqBoxes.forEach(box => {
-        // Changed to .faq-trigger to match your current HTML
         const trigger = box.querySelector('.faq-trigger'); 
         
         if (trigger) {
             trigger.addEventListener('click', () => {
-                // Close other open boxes first
+                // Close other open boxes
                 faqBoxes.forEach(item => {
                     if (item !== box) {
                         item.classList.remove('active');
-                        item.querySelector('.faq-content').style.maxHeight = null;
+                        const itemContent = item.querySelector('.faq-content');
+                        if (itemContent) itemContent.style.maxHeight = null;
                         item.querySelector('.faq-trigger').setAttribute('aria-expanded', 'false');
                     }
                 });
@@ -125,6 +125,7 @@ window.addEventListener('scroll', () => {
             });
         }
     });
+
     /* =========================================
        4. Applications Horizontal Slider
        ========================================= */
@@ -150,33 +151,38 @@ window.addEventListener('scroll', () => {
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabPanes = document.querySelectorAll('.tab-pane');
 
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Remove active class from all buttons and panes
-            tabBtns.forEach(b => b.classList.remove('active'));
-            tabPanes.forEach(p => p.classList.remove('active'));
+    if (tabBtns.length > 0) {
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active classes
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabPanes.forEach(p => p.classList.remove('active'));
 
-            // Add active class to clicked button
-            btn.classList.add('active');
-            
-            // Find the target pane and activate it
-            const targetId = btn.getAttribute('data-target');
-            const targetPane = document.getElementById(targetId);
-            if (targetPane) {
-                targetPane.classList.add('active');
-            }
+                // Add active class to clicked
+                btn.classList.add('active');
+                
+                // Activate target pane
+                const targetId = btn.getAttribute('data-target');
+                const targetPane = document.getElementById(targetId);
+                if (targetPane) {
+                    targetPane.classList.add('active');
+                }
+            });
         });
-    });
+    }
 
     /* =========================================
-       6. Modal Functionality
+       6. Global Modal Functionality
        ========================================= */
-    const modal = document.getElementById('contact-modal');
-    // Select ALL buttons that have the 'open-contact-modal' class
-    const openBtns = document.querySelectorAll('.open-contact-modal'); 
-    const closeBtn = document.getElementById('close-modal');
+    
+    // A reusable function to handle any modal on the site
+    const setupModal = (modalId, openBtnSelector, closeBtnId) => {
+        const modal = document.getElementById(modalId);
+        const openBtns = document.querySelectorAll(openBtnSelector);
+        const closeBtn = document.getElementById(closeBtnId);
 
-    if (modal) {
+        if (!modal) return;
+
         const openModal = () => {
             modal.classList.add('active');
             document.body.style.overflow = 'hidden'; // Stop background scrolling
@@ -184,27 +190,26 @@ window.addEventListener('scroll', () => {
 
         const closeModal = () => {
             modal.classList.remove('active');
-            document.body.style.overflow = ''; // Restore scrolling
+            // Only restore scrolling if no other modals are currently open
+            if (!document.querySelector('.modal-overlay.active')) {
+                document.body.style.overflow = ''; 
+            }
         };
 
-        // Loop through all trigger buttons and attach the click event
+        // Attach click events to all buttons that should open this modal
         openBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
-                e.preventDefault(); // Prevent jump if it's an anchor tag
+                e.preventDefault();
                 openModal();
             });
         });
         
-        // Attach close functionality
-        if (closeBtn) {
-            closeBtn.addEventListener('click', closeModal);
-        }
+        // Attach close events
+        if (closeBtn) closeBtn.addEventListener('click', closeModal);
 
         // Close when clicking outside the modal content box
         modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
-            }
+            if (e.target === modal) closeModal();
         });
 
         // Close on Escape key press
@@ -213,67 +218,34 @@ window.addEventListener('scroll', () => {
                 closeModal();
             }
         });
-    }
-    // --- Download Modal Logic ---
-    const downloadModal = document.getElementById('download-modal');
-    const downloadBtn = document.getElementById('download-sheet-btn'); 
-    const closeDownloadBtn = document.getElementById('close-download-modal');
+    };
 
-    if (downloadModal) {
-        const openDownload = () => {
-            downloadModal.classList.add('active');
-            document.body.style.overflow = 'hidden'; 
-        };
+    // Initialize both Modals using the helper function
+    setupModal('contact-modal', '.open-contact-modal', 'close-modal');
+    setupModal('download-modal', '#download-sheet-btn', 'close-download-modal');
 
-        const closeDownload = () => {
-            downloadModal.classList.remove('active');
-            // Only restore scrolling if the OTHER modal isn't also open
-            if (!document.getElementById('contact-modal').classList.contains('active')) {
-                document.body.style.overflow = ''; 
-            }
-        };
-
-        if (downloadBtn) {
-            downloadBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                openDownload();
-            });
-        }
-
-        if (closeDownloadBtn) {
-            closeDownloadBtn.addEventListener('click', closeDownload);
-        }
-
-        // Close when clicking outside
-        downloadModal.addEventListener('click', (e) => {
-            if (e.target === downloadModal) closeDownload();
-        });
-
-        // Close on Escape key press
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && downloadModal.classList.contains('active')) {
-                closeDownload();
-            }
-        });
-    }
-});
-/* =========================================
+    /* =========================================
        7. Mobile Navigation Toggle
        ========================================= */
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     const mobileNav = document.getElementById('mobile-nav');
 
+    // SVG Icons for clean toggling
+    const iconMenu = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>`;
+    const iconClose = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+
     if (mobileMenuToggle && mobileNav) {
         mobileMenuToggle.addEventListener('click', () => {
             mobileNav.classList.toggle('active');
             
-            // Toggle hamburger icon to an "X" (Optional but good UX)
             if (mobileNav.classList.contains('active')) {
-                mobileMenuToggle.innerHTML = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+                mobileMenuToggle.innerHTML = iconClose;
                 document.body.style.overflow = 'hidden'; // Stop scrolling behind menu
             } else {
-                mobileMenuToggle.innerHTML = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>`;
+                mobileMenuToggle.innerHTML = iconMenu;
                 document.body.style.overflow = ''; // Restore scrolling
             }
         });
     }
+
+});
